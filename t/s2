@@ -1,0 +1,28 @@
+
+use Test::More;
+
+use sql::fragment;
+
+require 'testutil.pm';
+
+my $s = sql::fragment::empty();
+
+is($s->string, "", "string");
+is_deeply([ $s->params ], [], "params");
+
+my $s1 = sql::fragment::build("this is a test");
+
+is($s1->string, "this is a test", "string1");
+is_deeply([ $s1->params ], [], "params1");
+
+my $s2 = sql::fragment::build(["foo", 'a', 'c', 'd' ]);
+
+is($s2->string, "foo", "string2");
+is_deeply([ $s2->params ], [ 'a', 'c', 'd' ], "params2");
+
+my $s3 = sql::fragment::build("bar",  ['x', 'y', 'd' ]);
+
+is($s3->string, "bar", "string3");
+is_deeply([ $s3->params ], [ 'x', 'y', 'd' ], "params3");
+
+done_testing();

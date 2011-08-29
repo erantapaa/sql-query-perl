@@ -1,0 +1,5 @@
+
+Run tests with:
+
+  perl -Itlib -Ilib ./t/<name-of-test>
+

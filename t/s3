@@ -1,0 +1,27 @@
+
+
+use Test::More;
+
+use sql::fragment;
+
+require 'testutil.pm';
+
+my $s1 = sql::fragment::build("this is a test");
+
+my $s2 = sql::fragment::build(["foo", 'a', 'c', 'd' ]);
+
+my $s3 = $s1->append($s2);
+
+is       ($s3->string, "this is a testfoo");
+is_deeply([ $s3->params ], [ 'a', 'c', 'd' ]);
+
+is_fragment("x", $s3, "this is a testfoo", [ qw/a c d/ ]);
+
+my $s4 = $s3->prepend("prepend: ");
+
+is       ($s4->string, "prepend: this is a testfoo");
+is_deeply([ $s4->params ], [ 'a', 'c', 'd' ]);
+
+is_fragment("y", $s4, "prepend: this is a testfoo", [ qw/a c d/ ]);
+
+done_testing();

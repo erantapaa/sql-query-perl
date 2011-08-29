@@ -1,0 +1,21 @@
+
+use Test::More;
+
+use sql::fragment;
+
+require 'testutil.pm';
+
+my $s1 = sql::fragment::build("this is a test");
+
+my $s2 = sql::fragment::build(["foo", 'a', 'c', 'd']);
+
+my $s3 = sql::fragment::build("another", [ qw/test of building/ ]);
+
+my $s4 = sql::fragment::join(",", [ $s1, $s2, $s3 ]);
+
+is_fragment(1, $s1, "this is a test", []);
+is_fragment(2, $s2, "foo", [qw/a c d/]);
+is_fragment(3, $s3, "another", [qw/test of building/]);
+is_fragment(4, $s4, "this is a test,foo,another", [qw/a c d test of building/ ]);
+
+done_testing();

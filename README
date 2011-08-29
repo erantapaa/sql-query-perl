@@ -1,0 +1,33 @@
+
+DESCRIPTION
+===========
+
+sql::query is a light-weight perl module for building SQL statement with placeholders.
+
+SYNOPSIS
+========
+
+    use sql::query;
+
+    # SELECT * FROM PERSON
+
+    my $q1 = sql::query->new->join("PERSON");
+
+    # SELECT * FROM PERSON WHERE AGE >= 18
+
+    my $q2 = $q1->search([ 'AGE >= ?', 18 ]);
+
+    # Note: $q1 doesn't change.
+
+    # SELECT FIRST_NAME, LAST_NAME FROM PERSON WHERE AGE >= 18
+
+    my $q3 = $q2->select("FIRST_NAME', "LAST_NAME");
+
+    # SELECT FIRST_NAME, LAST_NAME FROM PERSON WHERE AGE >= 18 ORDER BY INSERT_TIME
+
+    my $q4 = $q3->order_by("INSERT_TIME");
+
+    # Execute a query against a $dbh:
+
+    my $hash = $q1->statement->selectrow_hashref($dbh);
+
